@@ -1,6 +1,6 @@
  vasp.5.4.4.18Apr17-6-g9f103f2a35 (build Oct 03 2018 13:58:34) complex          
   
- executed on             LinuxIFC date 2019.06.03  23:36:22
+ executed on             LinuxIFC date 2019.06.03  23:56:24
  running on   40 total cores
  distrk:  each k-point on   20 cores,    2 groups
  distr:  one band on NCORES_PER_BAND=  10 cores,    2 groups
@@ -776,14 +776,14 @@ Space group operators:
  Maximum number of real-space cells 3x 3x 3
  Maximum number of reciprocal cells 3x 3x 3
 
-    FEWALD:  cpu time    0.0012: real time    0.0012
+    FEWALD:  cpu time    0.0013: real time    0.0013
 
 
 --------------------------------------- Iteration      1(   1)  ---------------------------------------
 
 
-    POTLOK:  cpu time    0.0150: real time    0.0161
-    SETDIJ:  cpu time    0.0094: real time    0.0096
+    POTLOK:  cpu time    0.0146: real time    0.0156
+    SETDIJ:  cpu time    0.0093: real time    0.0095
 atom =   1  type =  1  l = 0
  
  onsite density matrix
@@ -880,12 +880,12 @@ spin component  2
  
   o =  0.8190  v =  1.0000  0.0000      0.0000  0.0000
   o =  0.8190  v =  0.0000  1.0000      0.0000  0.0000
-     EDDAV:  cpu time    0.1113: real time    0.1129
+     EDDAV:  cpu time    0.1111: real time    0.1127
  BZINTS: Fermi energy: 19.416144; 36.000000 electrons
          Band energy: 322.392104;  BLOECHL correction: -0.372691
-       DOS:  cpu time    0.0058: real time    0.0064
+       DOS:  cpu time    0.0042: real time    0.0049
     --------------------------------------------
-      LOOP:  cpu time    0.1415: real time    0.1451
+      LOOP:  cpu time    0.1393: real time    0.1427
 
  eigenvalue-minimisations  :  1000
  total energy-change (2. order) : 0.3823192E+03  (-0.1514717E+04)
@@ -918,12 +918,12 @@ spin component  2
 --------------------------------------- Iteration      1(   2)  ---------------------------------------
 
 
-     EDDAV:  cpu time    0.1107: real time    0.1110
+     EDDAV:  cpu time    0.1103: real time    0.1106
  BZINTS: Fermi energy: 11.607344; 36.000000 electrons
          Band energy:   5.250784;  BLOECHL correction: -0.062204
-       DOS:  cpu time    0.0040: real time    0.0040
+       DOS:  cpu time    0.0040: real time    0.0041
     --------------------------------------------
-      LOOP:  cpu time    0.1147: real time    0.1150
+      LOOP:  cpu time    0.1143: real time    0.1147
 
  eigenvalue-minimisations  :  1024
  total energy-change (2. order) :-0.3171413E+03  (-0.2940069E+03)
@@ -956,12 +956,12 @@ spin component  2
 --------------------------------------- Iteration      1(   3)  ---------------------------------------
 
 
-     EDDAV:  cpu time    0.1565: real time    0.1575
+     EDDAV:  cpu time    0.1558: real time    0.1565
  BZINTS: Fermi energy: 10.738797; 36.000000 electrons
          Band energy: -91.675761;  BLOECHL correction: -0.035152
-       DOS:  cpu time    0.0035: real time    0.0035
+       DOS:  cpu time    0.0036: real time    0.0036
     --------------------------------------------
-      LOOP:  cpu time    0.1600: real time    0.1610
+      LOOP:  cpu time    0.1593: real time    0.1601
 
  eigenvalue-minimisations  :  1592
  total energy-change (2. order) :-0.9692655E+02  (-0.9284560E+02)
@@ -1032,14 +1032,14 @@ spin component  2
 --------------------------------------- Iteration      1(   5)  ---------------------------------------
 
 
-     EDDAV:  cpu time    0.1412: real time    0.1417
+     EDDAV:  cpu time    0.1405: real time    0.1424
  BZINTS: Fermi energy: 10.103212; 36.000000 electrons
          Band energy:-106.481603;  BLOECHL correction: -0.063003
        DOS:  cpu time    0.0036: real time    0.0036
-    CHARGE:  cpu time    0.0161: real time    0.0165
-    MIXING:  cpu time    0.0009: real time    0.0010
+    CHARGE:  cpu time    0.0152: real time    0.0155
+    MIXING:  cpu time    0.0011: real time    0.0012
     --------------------------------------------
-      LOOP:  cpu time    0.1618: real time    0.1628
+      LOOP:  cpu time    0.1603: real time    0.1627
 
  eigenvalue-minimisations  :  1416
  total energy-change (2. order) :-0.6737052E+00  (-0.6685696E+00)
@@ -1077,8 +1077,8 @@ spin component  2
 --------------------------------------- Iteration      1(   6)  ---------------------------------------
 
 
-    POTLOK:  cpu time    0.0120: real time    0.0122
-    SETDIJ:  cpu time    0.0069: real time    0.0069
+    POTLOK:  cpu time    0.0129: real time    0.0131
+    SETDIJ:  cpu time    0.0061: real time    0.0061
 atom =   1  type =  1  l = 0
  
  onsite density matrix
@@ -1175,16 +1175,16 @@ spin component  2
  
   o =  0.8133  v =  0.0000  1.0000      0.0000  0.0000
   o =  0.8177  v =  1.0000  0.0000      0.0000  0.0000
-    EDDIAG:  cpu time    0.0248: real time    0.0251
-  RMM-DIIS:  cpu time    0.0858: real time    0.0864
-    ORTHCH:  cpu time    0.0019: real time    0.0019
+    EDDIAG:  cpu time    0.0250: real time    0.0253
+  RMM-DIIS:  cpu time    0.0852: real time    0.0859
+    ORTHCH:  cpu time    0.0018: real time    0.0019
  BZINTS: Fermi energy:  7.724994; 36.000000 electrons
          Band energy: -75.977432;  BLOECHL correction: -0.100989
-       DOS:  cpu time    0.0033: real time    0.0033
-    CHARGE:  cpu time    0.0134: real time    0.0134
-    MIXING:  cpu time    0.0011: real time    0.0012
+       DOS:  cpu time    0.0034: real time    0.0034
+    CHARGE:  cpu time    0.0134: real time    0.0135
+    MIXING:  cpu time    0.0010: real time    0.0011
     --------------------------------------------
-      LOOP:  cpu time    0.1492: real time    0.1503
+      LOOP:  cpu time    0.1489: real time    0.1502
 
  eigenvalue-minimisations  :  1503
  total energy-change (2. order) : 0.6318501E+01  (-0.8766016E+01)
@@ -1226,8 +1226,8 @@ spin component  2
 --------------------------------------- Iteration      1(   7)  ---------------------------------------
 
 
-    POTLOK:  cpu time    0.0121: real time    0.0123
-    SETDIJ:  cpu time    0.0067: real time    0.0067
+    POTLOK:  cpu time    0.0122: real time    0.0123
+    SETDIJ:  cpu time    0.0068: real time    0.0068
 atom =   1  type =  1  l = 0
  
  onsite density matrix
@@ -1324,16 +1324,16 @@ spin component  2
  
   o =  0.8059  v =  0.0000  1.0000      0.0000  0.0000
   o =  0.8117  v =  1.0000  0.0000      0.0000  0.0000
-    EDDIAG:  cpu time    0.0241: real time    0.0242
+    EDDIAG:  cpu time    0.0244: real time    0.0245
   RMM-DIIS:  cpu time    0.0774: real time    0.0776
     ORTHCH:  cpu time    0.0019: real time    0.0019
  BZINTS: Fermi energy:  8.015272; 36.000000 electrons
          Band energy: -72.958995;  BLOECHL correction: -0.080789
-       DOS:  cpu time    0.0033: real time    0.0033
-    CHARGE:  cpu time    0.0134: real time    0.0136
+       DOS:  cpu time    0.0033: real time    0.0034
+    CHARGE:  cpu time    0.0134: real time    0.0134
     MIXING:  cpu time    0.0008: real time    0.0008
     --------------------------------------------
-      LOOP:  cpu time    0.1397: real time    0.1403
+      LOOP:  cpu time    0.1402: real time    0.1406
 
  eigenvalue-minimisations  :  1374
  total energy-change (2. order) : 0.6428840E+00  (-0.8362877E+00)
@@ -1375,8 +1375,8 @@ spin component  2
 --------------------------------------- Iteration      1(   8)  ---------------------------------------
 
 
-    POTLOK:  cpu time    0.0122: real time    0.0123
-    SETDIJ:  cpu time    0.0066: real time    0.0067
+    POTLOK:  cpu time    0.0121: real time    0.0122
+    SETDIJ:  cpu time    0.0067: real time    0.0068
 atom =   1  type =  1  l = 0
  
  onsite density matrix
@@ -1473,16 +1473,16 @@ spin component  2
  
   o =  0.7980  v =  0.0000  1.0000      0.0000  0.0000
   o =  0.8080  v =  1.0000  0.0000      0.0000  0.0000
-    EDDIAG:  cpu time    0.0245: real time    0.0245
-  RMM-DIIS:  cpu time    0.0895: real time    0.0900
-    ORTHCH:  cpu time    0.0019: real time    0.0019
+    EDDIAG:  cpu time    0.0244: real time    0.0245
+  RMM-DIIS:  cpu time    0.0900: real time    0.0903
+    ORTHCH:  cpu time    0.0020: real time    0.0028
  BZINTS: Fermi energy:  8.301955; 36.000000 electrons
          Band energy: -74.496432;  BLOECHL correction: -0.063478
-       DOS:  cpu time    0.0032: real time    0.0032
-    CHARGE:  cpu time    0.0136: real time    0.0137
+       DOS:  cpu time    0.0031: real time    0.0032
+    CHARGE:  cpu time    0.0136: real time    0.0136
     MIXING:  cpu time    0.0008: real time    0.0008
     --------------------------------------------
-      LOOP:  cpu time    0.1523: real time    0.1531
+      LOOP:  cpu time    0.1527: real time    0.1541
 
  eigenvalue-minimisations  :  1437
  total energy-change (2. order) : 0.1068481E+00  (-0.2812246E+00)
@@ -1524,8 +1524,8 @@ spin component  2
 --------------------------------------- Iteration      1(   9)  ---------------------------------------
 
 
-    POTLOK:  cpu time    0.0132: real time    0.0147
-    SETDIJ:  cpu time    0.0068: real time    0.0068
+    POTLOK:  cpu time    0.0129: real time    0.0148
+    SETDIJ:  cpu time    0.0063: real time    0.0063
 atom =   1  type =  1  l = 0
  
  onsite density matrix
@@ -1622,16 +1622,16 @@ spin component  2
  
   o =  0.7917  v =  0.0000  1.0000      0.0000  0.0000
   o =  0.7998  v =  1.0000  0.0000      0.0000  0.0000
-    EDDIAG:  cpu time    0.0244: real time    0.0245
-  RMM-DIIS:  cpu time    0.0867: real time    0.0881
-    ORTHCH:  cpu time    0.0021: real time    0.0022
+    EDDIAG:  cpu time    0.0246: real time    0.0246
+  RMM-DIIS:  cpu time    0.0866: real time    0.0870
+    ORTHCH:  cpu time    0.0019: real time    0.0020
  BZINTS: Fermi energy:  8.297329; 36.000000 electrons
          Band energy: -78.039239;  BLOECHL correction: -0.062308
-       DOS:  cpu time    0.0034: real time    0.0034
-    CHARGE:  cpu time    0.0134: real time    0.0134
-    MIXING:  cpu time    0.0008: real time    0.0008
+       DOS:  cpu time    0.0037: real time    0.0042
+    CHARGE:  cpu time    0.0133: real time    0.0157
+    MIXING:  cpu time    0.0007: real time    0.0009
     --------------------------------------------
-      LOOP:  cpu time    0.1508: real time    0.1539
+      LOOP:  cpu time    0.1500: real time    0.1556
 
  eigenvalue-minimisations  :  1542
  total energy-change (2. order) :-0.8886757E-01  (-0.1662852E+00)
@@ -1673,8 +1673,8 @@ spin component  2
 --------------------------------------- Iteration      1(  10)  ---------------------------------------
 
 
-    POTLOK:  cpu time    0.0122: real time    0.0124
-    SETDIJ:  cpu time    0.0065: real time    0.0065
+    POTLOK:  cpu time    0.0123: real time    0.0145
+    SETDIJ:  cpu time    0.0042: real time    0.0046
 atom =   1  type =  1  l = 0
  
  onsite density matrix
@@ -1771,16 +1771,16 @@ spin component  2
  
   o =  0.7890  v =  0.0000  1.0000      0.0000  0.0000
   o =  0.7956  v =  1.0000  0.0000      0.0000  0.0000
-    EDDIAG:  cpu time    0.0244: real time    0.0245
-  RMM-DIIS:  cpu time    0.0825: real time    0.0832
-    ORTHCH:  cpu time    0.0019: real time    0.0019
+    EDDIAG:  cpu time    0.0272: real time    0.0277
+  RMM-DIIS:  cpu time    0.0829: real time    0.0832
+    ORTHCH:  cpu time    0.0018: real time    0.0018
  BZINTS: Fermi energy:  8.166282; 36.000000 electrons
          Band energy: -77.024534;  BLOECHL correction: -0.064863
        DOS:  cpu time    0.0035: real time    0.0035
-    CHARGE:  cpu time    0.0133: real time    0.0133
+    CHARGE:  cpu time    0.0134: real time    0.0134
     MIXING:  cpu time    0.0008: real time    0.0008
     --------------------------------------------
-      LOOP:  cpu time    0.1450: real time    0.1462
+      LOOP:  cpu time    0.1461: real time    0.1495
 
  eigenvalue-minimisations  :  1484
  total energy-change (2. order) :-0.2232087E-01  (-0.3986220E-01)
@@ -1823,7 +1823,7 @@ spin component  2
 
 
     POTLOK:  cpu time    0.0120: real time    0.0122
-    SETDIJ:  cpu time    0.0067: real time    0.0069
+    SETDIJ:  cpu time    0.0081: real time    0.0081
 atom =   1  type =  1  l = 0
  
  onsite density matrix
@@ -1920,16 +1920,16 @@ spin component  2
  
   o =  0.7878  v =  0.0000  1.0000      0.0000  0.0000
   o =  0.7946  v =  1.0000  0.0000      0.0000  0.0000
-    EDDIAG:  cpu time    0.0243: real time    0.0243
-  RMM-DIIS:  cpu time    0.0797: real time    0.0799
-    ORTHCH:  cpu time    0.0019: real time    0.0019
+    EDDIAG:  cpu time    0.0244: real time    0.0245
+  RMM-DIIS:  cpu time    0.0793: real time    0.0795
+    ORTHCH:  cpu time    0.0018: real time    0.0018
  BZINTS: Fermi energy:  8.126452; 36.000000 electrons
          Band energy: -76.635592;  BLOECHL correction: -0.070252
-       DOS:  cpu time    0.0034: real time    0.0034
-    CHARGE:  cpu time    0.0135: real time    0.0135
-    MIXING:  cpu time    0.0008: real time    0.0009
+       DOS:  cpu time    0.0035: real time    0.0035
+    CHARGE:  cpu time    0.0136: real time    0.0136
+    MIXING:  cpu time    0.0009: real time    0.0009
     --------------------------------------------
-      LOOP:  cpu time    0.1424: real time    0.1431
+      LOOP:  cpu time    0.1436: real time    0.1441
 
  eigenvalue-minimisations  :  1414
  total energy-change (2. order) :-0.1935420E-01  (-0.1671583E-01)
@@ -1971,8 +1971,8 @@ spin component  2
 --------------------------------------- Iteration      1(  12)  ---------------------------------------
 
 
-    POTLOK:  cpu time    0.0130: real time    0.0132
-    SETDIJ:  cpu time    0.0058: real time    0.0058
+    POTLOK:  cpu time    0.0122: real time    0.0124
+    SETDIJ:  cpu time    0.0080: real time    0.0080
 atom =   1  type =  1  l = 0
  
  onsite density matrix
@@ -2069,16 +2069,16 @@ spin component  2
  
   o =  0.7872  v =  0.0000  1.0000      0.0000  0.0000
   o =  0.7942  v =  1.0000  0.0000      0.0000  0.0000
-    EDDIAG:  cpu time    0.0241: real time    0.0242
-  RMM-DIIS:  cpu time    0.0644: real time    0.0645
+    EDDIAG:  cpu time    0.0249: real time    0.0250
+  RMM-DIIS:  cpu time    0.0651: real time    0.0653
     ORTHCH:  cpu time    0.0019: real time    0.0019
  BZINTS: Fermi energy:  8.108192; 36.000000 electrons
          Band energy: -76.566765;  BLOECHL correction: -0.071739
        DOS:  cpu time    0.0029: real time    0.0029
-    CHARGE:  cpu time    0.0134: real time    0.0135
+    CHARGE:  cpu time    0.0142: real time    0.0143
     MIXING:  cpu time    0.0009: real time    0.0009
     --------------------------------------------
-      LOOP:  cpu time    0.1265: real time    0.1269
+      LOOP:  cpu time    0.1301: real time    0.1306
 
  eigenvalue-minimisations  :  1129
  total energy-change (2. order) :-0.4454831E-02  (-0.5312822E-02)
@@ -2120,8 +2120,8 @@ spin component  2
 --------------------------------------- Iteration      1(  13)  ---------------------------------------
 
 
-    POTLOK:  cpu time    0.0121: real time    0.0123
-    SETDIJ:  cpu time    0.0067: real time    0.0068
+    POTLOK:  cpu time    0.0122: real time    0.0124
+    SETDIJ:  cpu time    0.0068: real time    0.0068
 atom =   1  type =  1  l = 0
  
  onsite density matrix
@@ -2218,16 +2218,16 @@ spin component  2
  
   o =  0.7871  v =  0.0000  1.0000      0.0000  0.0000
   o =  0.7927  v =  1.0000  0.0000      0.0000  0.0000
-    EDDIAG:  cpu time    0.0242: real time    0.0242
-  RMM-DIIS:  cpu time    0.0605: real time    0.0606
-    ORTHCH:  cpu time    0.0019: real time    0.0019
+    EDDIAG:  cpu time    0.0243: real time    0.0246
+  RMM-DIIS:  cpu time    0.0606: real time    0.0607
+    ORTHCH:  cpu time    0.0018: real time    0.0018
  BZINTS: Fermi energy:  8.095686; 36.000000 electrons
          Band energy: -76.585567;  BLOECHL correction: -0.073632
-       DOS:  cpu time    0.0033: real time    0.0033
-    CHARGE:  cpu time    0.0135: real time    0.0136
+       DOS:  cpu time    0.0033: real time    0.0034
+    CHARGE:  cpu time    0.0135: real time    0.0135
     MIXING:  cpu time    0.0010: real time    0.0010
     --------------------------------------------
-      LOOP:  cpu time    0.1232: real time    0.1236
+      LOOP:  cpu time    0.1235: real time    0.1242
 
  eigenvalue-minimisations  :  1030
  total energy-change (2. order) :-0.8350396E-03  (-0.1188346E-02)
@@ -2367,9 +2367,9 @@ spin component  2
  
   o =  0.7861  v =  0.0000  1.0000      0.0000  0.0000
   o =  0.7931  v =  1.0000  0.0000      0.0000  0.0000
-    EDDIAG:  cpu time    0.0242: real time    0.0243
-  RMM-DIIS:  cpu time    0.0530: real time    0.0532
-    ORTHCH:  cpu time    0.0019: real time    0.0019
+    EDDIAG:  cpu time    0.0244: real time    0.0244
+  RMM-DIIS:  cpu time    0.0530: real time    0.0531
+    ORTHCH:  cpu time    0.0018: real time    0.0018
  BZINTS: Fermi energy:  8.088546; 36.000000 electrons
          Band energy: -76.505946;  BLOECHL correction: -0.073496
        DOS:  cpu time    0.0034: real time    0.0034
@@ -3139,11 +3139,11 @@ tot          0.044  -0.051   3.907  -0.010   3.890
 
  
     CHARGE:  cpu time    0.0139: real time    0.0139
-    FORLOC:  cpu time    0.0009: real time    0.0009
-    FORNL :  cpu time    0.0441: real time    0.0448
-    STRESS:  cpu time    0.1282: real time    0.1289
-    FORCOR:  cpu time    0.0127: real time    0.0128
-    FORHAR:  cpu time    0.0022: real time    0.0022
+    FORLOC:  cpu time    0.0008: real time    0.0010
+    FORNL :  cpu time    0.0443: real time    0.0448
+    STRESS:  cpu time    0.1293: real time    0.1299
+    FORCOR:  cpu time    0.0127: real time    0.0129
+    FORHAR:  cpu time    0.0022: real time    0.0025
     MIXING:  cpu time    0.0010: real time    0.0010
     OFIELD:  cpu time    0.0001: real time    0.0002
 
@@ -3216,13 +3216,13 @@ tot          0.044  -0.051   3.907  -0.010   3.890
 --------------------------------------------------------------------------------------------------------
 
 
-    POTLOK:  cpu time    0.0189: real time    0.0189
+    POTLOK:  cpu time    0.0188: real time    0.0188
 
 
 --------------------------------------------------------------------------------------------------------
 
 
-     LOOP+:  cpu time    2.6027: real time    2.6237
+     LOOP+:  cpu time    2.6108: real time    2.6388
     4ORBIT:  cpu time    0.0000: real time    0.0000
  
 
@@ -3273,14 +3273,14 @@ tot          0.044  -0.051   3.907  -0.010   3.890
  General timing and accounting informations for this job:
  ========================================================
   
-                  Total CPU time used (sec):        4.081
-                            User time (sec):        3.695
-                          System time (sec):        0.386
-                         Elapsed time (sec):        4.171
+                  Total CPU time used (sec):        4.091
+                            User time (sec):        3.718
+                          System time (sec):        0.373
+                         Elapsed time (sec):        4.185
   
-                   Maximum memory used (kb):       60224.
+                   Maximum memory used (kb):       62444.
                    Average memory used (kb):           0.
   
-                          Minor page faults:        12660
+                          Minor page faults:        12211
                           Major page faults:            0
-                 Voluntary context switches:          906
+                 Voluntary context switches:          887
