@@ -1,0 +1,6 @@
+POTCAR_DIR_PATH = /VASP5_psps/VASP5_psps/
+SPECIES    ALIAS    POTCAR  POTCAR_location    MAGMOM LDAUL LDAUU LDAUJ
+La         La       1       POT_GGA_PAW_PBE/La      0     0   0.0   0.0
+Mn         Mn       1       POT_GGA_PAW_PBE/Mn      4     2   3.9   0.0
+Ni         Ni       1       POT_GGA_PAW_PBE/Ni      3     2   6.2   0.0
+O          O        1       POT_GGA_PAW_PBE/O       0     0   0.0   0.0

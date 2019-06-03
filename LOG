@@ -1,0 +1,48 @@
+# 2019-06-03 21:55:20
+# root@74498293ccca
+# v0.3.dev-269-gd07b42
+casm composition 
+# return: 0 runtime(s): 0.001194
+
+# 2019-06-03 21:55:31
+# root@74498293ccca
+# v0.3.dev-269-gd07b42
+casm composition -c 
+# return: 0 runtime(s): 0.0153464
+
+# 2019-06-03 21:55:39
+# root@74498293ccca
+# v0.3.dev-269-gd07b42
+casm composition -s 0 
+# return: 0 runtime(s): 0.0109091
+
+# 2019-06-03 21:56:03
+# root@74498293ccca
+# v0.3.dev-269-gd07b42
+casm enum -m ScelEnum --max 4 
+# return: 0 runtime(s): 0.127237
+
+# 2019-06-03 21:58:23
+# root@74498293ccca
+# v0.3.dev-269-gd07b42
+casm enum -m ConfigEnumAllOccupations -a 
+# return: 0 runtime(s): 0.367926
+
+# 2019-06-03 21:58:33
+# root@74498293ccca
+# v0.3.dev-269-gd07b42
+casm enum -m ScelEnum --max 6 
+# return: 0 runtime(s): 0.370469
+
+# 2019-06-03 21:58:38
+# root@74498293ccca
+# v0.3.dev-269-gd07b42
+casm enum -m ConfigEnumAllOccupations -a 
+# return: 0 runtime(s): 0.671236
+
+# 2019-06-03 21:59:01
+# root@74498293ccca
+# v0.3.dev-269-gd07b42
+casm select --set-on 
+# return: 0 runtime(s): 0.245206
+

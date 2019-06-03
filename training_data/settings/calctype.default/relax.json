@@ -1,0 +1,6 @@
+{
+  "queue" : "batch",
+  "ppn" : 40,
+  "atom_per_proc" : 2,
+  "walltime" : "24:00:00"
+}
