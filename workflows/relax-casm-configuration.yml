@@ -1,0 +1,314 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: ce-mnni-ortho-
+spec:
+
+  entrypoint: job
+
+  arguments:
+    parameters:
+    - name: git-repo
+      value: "git@github.com:DenisKramer/ce_MnNi_ortho.git"
+    - name: supercell
+      value: "SCEL1_1_1_1_0_0_0"
+    - name: configuration
+      value: "0"
+    - name: cluster
+      value: "iridis5"
+
+  volumes:
+  - name: repo
+    emptyDir: {}
+  - name: ssh
+    secret:
+        secretName: "{{workflow.parameters.cluster}}-login"
+        defaultMode: 256
+
+  templates:
+
+  # Main workflow template
+  - name: job
+    steps:
+    - - name: clone
+        template: get-from-repo
+    - - name: run
+        template: run-job
+        arguments:
+          artifacts:
+          - name: vasp-files
+            from: "{{steps.clone.outputs.artifacts.vasp-files}}"
+    - - name: rerun
+        template: run-job
+        when: "{{steps.run.outputs.parameters.result}} != Converged"
+        arguments:
+          artifacts:
+          - name: vasp-files
+            from: "{{steps.run.outputs.artifacts.vasp-files}}"
+
+  - name: run-job
+    inputs:
+      artifacts:
+      - name: vasp-files
+    outputs:
+      parameters:
+      - name: result
+        valueFrom: 
+          parameter: "{{steps.check.outputs.result}}"
+      artifacts:
+      - name: vasp-files
+        from: "{{steps.collect.outputs.artifacts.vasp-files}}"
+      - name: properties-file
+        from: "{{steps.collect.outputs.artifacts.properties-file}}"
+    steps:
+    - - name: submit
+        template: submit-job
+        arguments:
+          artifacts:
+          - name: vasp-files
+            from: "{{inputs.artifacts.vasp-files}}"
+    - - name: run
+        template: suspend
+    - - name: collect
+        template: collect-and-check
+        arguments:
+          parameters:
+          - name: lockid
+            value: "{{steps.submit.outputs.parameters.lockid}}"
+    - - name: check
+        template: converged
+        ContinueOn:
+          failed: true
+        arguments:
+          artifacts:
+          - name: vasp-files
+            from: "{{steps.collect.outputs.artifacts.vasp-files}}"
+    - - name: update
+        template: update-repo-with-vasp-result
+        when: "{{steps.check.outputs.result}} == Converged"
+        arguments:
+          artifacts:
+          - name: properties-file
+            from: "{{steps.collect.outputs.artifacts.properties-file}}"
+          - name: vasp-files
+            from: "{{steps.collect.outputs.artifacts.vasp-files}}"
+
+  # Steps 
+  
+  - name: submit-job
+    inputs:
+      artifacts:
+      - name: vasp-files
+    outputs:
+      parameters:
+        - name: lockid
+          valueFrom: 
+            parameter: "{{steps.get-lock.outputs.parameters.lockid}}"
+    steps:
+    - - name: get-lock
+        template: create-hpc-lock
+
+    - - name: submit
+        template: submit-vasp-to-cluster
+        arguments:
+          parameters:
+          - name: lockid
+            value: "{{steps.get-lock.outputs.parameters.lockid}}"
+          artifacts:
+          - name: vasp-files
+            from: "{{inputs.artifacts.vasp-files}}"
+
+  - name: collect-and-check
+    inputs:
+      parameters:
+      - name: lockid
+    outputs:
+      artifacts:
+        - name: vasp-files
+          from: "{{steps.collect.outputs.artifacts.vasp-files}}"
+        - name: properties-file
+          from: "{{steps.compute-properties.outputs.artifacts.properties-file}}"
+    steps:
+    - - name: collect
+        template: collect-vasp-from-cluster
+        arguments:
+          parameters:
+          - name: lockid
+            value: "{{inputs.parameters.lockid}}"
+    - - name: compute-properties
+        template: calc-properties
+        arguments:
+          artifacts:
+          - name: vasp-files
+            from: "{{steps.collect.outputs.artifacts.vasp-files}}"
+
+  ## Leafs
+  - name: suspend
+    suspend: {}
+
+  - name: create-hpc-lock
+    outputs:
+      parameters:
+      - name: lockid
+        valueFrom: 
+          path: /result
+    container:
+      image: registry.kramergroup.science/workflows/lock-manager
+      env:
+      - name: API_ENDPOINT
+        value: https://b8mxx1nake.execute-api.eu-west-2.amazonaws.com/prod/lock
+      args:
+      - create 
+      - "{{workflow.name}}"
+      - "{{workflow.namespace}}"
+
+  - name: get-from-repo
+    inputs:
+      artifacts:
+      - name: repo
+        path: /data/vasp
+        git:
+          repo: "{{workflow.parameters.git-repo}}"
+          sshPrivateKeySecret:
+            name: "{{workflow.parameters.cluster}}-login"
+            key: id_rsa
+    outputs:
+      artifacts:
+      - name: vasp-files
+        path: "/data/vasp/training_data/{{workflow.parameters.supercell}}/{{workflow.parameters.configuration}}/calctype.default"
+    container:
+      image: alpine:latest
+
+  # Submit a vasp calculation to iridis
+  - name: submit-vasp-to-cluster
+    inputs:
+      parameters:
+      - name: lockid
+      - name: workflow
+        value: "{{workflow.name}}"
+      artifacts:
+      - name: vasp-files
+        path: /data/vasp
+    container:
+      image: registry.kramergroup.science/workflows/vasp-submit
+      env:
+      - name: CLUSTER
+        value: "{{workflow.parameters.cluster}}"
+      - name: JOB_NAME
+        value: "{{inputs.parameters.workflow}}-{{inputs.parameters.lockid}}"
+      - name: JOB_EMAIL
+        value: "{{inputs.parameters.lockid}}@locks.kramergroup.science"
+      - name: BASEDIR
+        value: "workflows"
+      - name: USERNAME
+        valueFrom:
+          secretKeyRef:
+            name: "{{workflow.parameters.cluster}}-login"
+            key: username
+      volumeMounts:
+      - name: ssh
+        mountPath: "/ssh"
+      # - name: repo
+      #   mountPath: "/data/vasp"
+
+  - name: collect-vasp-from-cluster
+    inputs:
+      parameters:
+      - name: lockid
+      - name: workflow
+        value: "{{workflow.name}}"
+    outputs:
+      artifacts:
+      - name: vasp-files
+        path: /data/vasp
+    retryStrategy:
+      limit: 3
+    container:
+      image: registry.kramergroup.science/workflows/vasp-collect
+      env:
+      - name: CLUSTER
+        value: "{{workflow.parameters.cluster}}"
+      - name: JOB_NAME
+        value: "{{inputs.parameters.workflow}}-{{inputs.parameters.lockid}}"
+      - name: JOB_EMAIL
+        value: "{{inputs.parameters.lockid}}@locks.kramergroup.science"
+      - name: BASEDIR
+        value: "workflows"
+      - name: USERNAME
+        valueFrom:
+          secretKeyRef:
+            name: "{{workflow.parameters.cluster}}-login"
+            key: username
+      volumeMounts:
+      - name: ssh
+        mountPath: "/ssh"
+
+  - name: calc-properties
+    inputs:
+      artifacts: 
+      - name: vasp-files
+        path: /data/vasp
+    outputs:
+      artifacts:
+      - name: properties-file
+        path: /data/properties.calc.json
+    container:
+      image: registry.kramergroup.science/workflows/vasp-casm-properties
+      args: 
+      - "/data/vasp/run.final"
+      - "/data/properties.calc.json"
+  
+  - name: converged
+    inputs:
+      artifacts: 
+      - name: vasp-files
+        path: /data
+    script:
+      image: registry.kramergroup.science/workflows/vasp-casm-properties
+      command: [ "/bin/sh" ]
+      source: |
+        cd /data
+        python3 /assets/vasp-driver.pyz check
+        if [ $? = 0 ]; then
+          echo "Converged"
+        else 
+          echo "Failed"
+        fi
+
+  - name: update-repo-with-vasp-result
+    inputs:
+      artifacts:
+      - name: repo
+        path: /data/repo
+        git:
+          repo: "{{workflow.parameters.git-repo}}"
+          sshPrivateKeySecret:
+            name: "{{workflow.parameters.cluster}}-login"
+            key: id_rsa
+      - name: properties-file
+        path: /data/properties.calc.json
+      - name: vasp-files
+        path: /data/vasp
+    retryStrategy:
+      limit: 5
+    script:
+      image: alpine/git
+      command: [ "/bin/sh" ]
+      volumeMounts:
+      - name: ssh
+        mountPath: /ssh
+      env:
+      - name: GIT_SSH_COMMAND
+        value:  ssh -i /ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
+      source: |
+        cd /data/repo
+        cp /data/properties.calc.json training_data/{{workflow.parameters.supercell}}/{{workflow.parameters.configuration}}/calctype.default/properties.calc.json
+        cp /data/vasp/run.final/OSZICAR training_data/{{workflow.parameters.supercell}}/{{workflow.parameters.configuration}}/calctype.default/OSZICAR
+        cp /data/vasp/run.final/OUTCAR training_data/{{workflow.parameters.supercell}}/{{workflow.parameters.configuration}}/calctype.default/OUTCAR
+        cp /data/vasp/run.final/CONTCAR training_data/{{workflow.parameters.supercell}}/{{workflow.parameters.configuration}}/calctype.default/CONTCAR                
+        echo "{\"source\": \"{{workflow.name}}\"}" >  training_data/{{workflow.parameters.supercell}}/{{workflow.parameters.configuration}}/calctype.default/workflow.json
+        git config user.email "no-reply@kramergroup.science"
+        git config user.name "Argo Workflow Bot"
+        git add training_data
+        git commit -m "Added result from workflow {{workflow.name}}"
+        git push
