@@ -39,9 +39,6 @@ spec:
         - { dir: 'fit_2', filter: 'and(is_calculated,le(comp(a),0.5))' }
         - { dir: 'fit_3', filter: 'and(is_calculated,ge(comp(a),0.5))' }          
     
-    - - name: update
-        template: update-repo
-
   # Leafs
 
   - name: clone-repo
@@ -55,8 +52,6 @@ spec:
       - name: GIT_SSH_COMMAND
         value:  ssh -i /ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
       volumeMounts:
-      - name: repo
-        mountPath: /data
       - name: ssh
         mountPath: /ssh
       source: |
@@ -89,7 +84,7 @@ spec:
         value:  ssh -i /ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
       source: |
         cd /data/repo
-        cp -r /data/fit-folder {{inputs.parameters.fitdir}}
+        cp -r /data/fit-folder/* {{inputs.parameters.fitdir}}
         git config user.email "no-reply@kramergroup.science"
         git config user.name "Argo Workflow Bot"
         git add {{inputs.parameters.fitdir}}
@@ -140,9 +135,6 @@ spec:
     script:
       image: kramergroup/casm:condo-latest
       command: ["/bin/bash"]
-      volumeMounts:
-      - name: repo
-        mountPath: /data
       source: |
         mkdir -p /data/repo/{{inputs.parameters.fitdir}}
         cd /data/repo/{{inputs.parameters.fitdir}}
