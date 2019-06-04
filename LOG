@@ -274,3 +274,21 @@ casm settings --new-eci fit_3
 casm query -k formation_energy is_calculated corr hull_dist(CALCULATED,atom_frac)  -c /data/fit_3/train -v -o STDOUT 
 # return: 0 runtime(s): 0.0135225
 
+# 2019-06-04 15:25:33
+# root@fbe53d7468cf
+# v0.3.dev-269-gd07b42
+casm settings --new-eci fit_1 
+# return: 1 runtime(s): 0.0048062
+
+# 2019-06-04 15:25:53
+# root@fbe53d7468cf
+# v0.3.dev-269-gd07b42
+casm ref --set-auto 
+# return: 2 runtime(s): 0.227538
+
+# 2019-06-04 15:26:21
+# root@fbe53d7468cf
+# v0.3.dev-269-gd07b42
+casm update 
+# return: 0 runtime(s): 4.10732
+
