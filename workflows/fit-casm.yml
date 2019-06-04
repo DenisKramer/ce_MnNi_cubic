@@ -111,10 +111,12 @@ spec:
       source: |
         mkdir -p /data/repo/{{inputs.parameters.fitdir}}
         cd /data/repo/{{inputs.parameters.fitdir}}
-        echo "Creating new ECI setting {{inputs.parameters.fitdir}}"
-        casm settings --new-eci {{inputs.parameters.fitdir}}
         echo "Selecting training set with filter {{inputs.parameters.filter}}"
-        casm select -c CALCULATED --set '{{inputs.parameters.filter}}' -o train
+        casm select -c CALCULATED --set '{{inputs.parameters.filter}}' -o train --force
+        echo "Creating new ECI setting {{inputs.parameters.fitdir}}"
+        casm settings --new-property formation_energy
+        casm settings --new-eci {{inputs.parameters.fitdir}}
+        
         if [ ! -f fit_ga.json ]; then
           casm learn --exGeneticAlgorithm > fit_ga.json
         fi
