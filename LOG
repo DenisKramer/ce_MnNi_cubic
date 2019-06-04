@@ -424,3 +424,9 @@ casm query -c train -k comp(a) formation_energy clex() -o summary.dat
 
 # return: 0 runtime(s): 0.56711
 
+# 2019-06-04 16:10:19
+# root@25d6136c0f0b
+# v0.3.dev-269-gd07b42
+casm settings --new-property formation_energy 
+# return: 0 runtime(s): 0.0481149
+
