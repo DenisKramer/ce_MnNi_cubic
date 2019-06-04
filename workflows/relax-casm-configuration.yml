@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  generateName: ce-mnni-ortho-
+  generateName: ce-mnni-cubic-
 spec:
 
   entrypoint: job
@@ -9,17 +9,13 @@ spec:
   arguments:
     parameters:
     - name: git-repo
-      value: "git@github.com:DenisKramer/ce_MnNi_ortho.git"
-    - name: supercell
-      value: "SCEL1_1_1_1_0_0_0"
+      value: "git@github.com:DenisKramer/ce_MnNi_cubic.git"
     - name: configuration
-      value: "0"
+      value: "SCEL1_1_1_1_0_0_0/0"
     - name: cluster
       value: "iridis5"
 
   volumes:
-  - name: repo
-    emptyDir: {}
   - name: ssh
     secret:
         secretName: "{{workflow.parameters.cluster}}-login"
@@ -59,7 +55,7 @@ spec:
       - name: vasp-files
         from: "{{steps.collect.outputs.artifacts.vasp-files}}"
       - name: properties-file
-        from: "{{steps.collect.outputs.artifacts.properties-file}}"
+        from: "{{steps.properties.outputs.artifacts.properties-file}}"
     steps:
     - - name: submit
         template: submit-job
@@ -70,7 +66,7 @@ spec:
     - - name: run
         template: suspend
     - - name: collect
-        template: collect-and-check
+        template: collect-vasp-from-cluster
         arguments:
           parameters:
           - name: lockid
@@ -83,13 +79,20 @@ spec:
           artifacts:
           - name: vasp-files
             from: "{{steps.collect.outputs.artifacts.vasp-files}}"
+    - - name: properties
+        template: calc-properties
+        when: "{{steps.check.outputs.result}} == Converged"
+        arguments:
+          artifacts:
+          - name: vasp-files
+            from: "{{steps.collect.outputs.artifacts.vasp-files}}"
     - - name: update
         template: update-repo-with-vasp-result
         when: "{{steps.check.outputs.result}} == Converged"
         arguments:
           artifacts:
           - name: properties-file
-            from: "{{steps.collect.outputs.artifacts.properties-file}}"
+            from: "{{steps.properties.outputs.artifacts.properties-file}}"
           - name: vasp-files
             from: "{{steps.collect.outputs.artifacts.vasp-files}}"
 
@@ -117,30 +120,6 @@ spec:
           artifacts:
           - name: vasp-files
             from: "{{inputs.artifacts.vasp-files}}"
-
-  - name: collect-and-check
-    inputs:
-      parameters:
-      - name: lockid
-    outputs:
-      artifacts:
-        - name: vasp-files
-          from: "{{steps.collect.outputs.artifacts.vasp-files}}"
-        - name: properties-file
-          from: "{{steps.compute-properties.outputs.artifacts.properties-file}}"
-    steps:
-    - - name: collect
-        template: collect-vasp-from-cluster
-        arguments:
-          parameters:
-          - name: lockid
-            value: "{{inputs.parameters.lockid}}"
-    - - name: compute-properties
-        template: calc-properties
-        arguments:
-          artifacts:
-          - name: vasp-files
-            from: "{{steps.collect.outputs.artifacts.vasp-files}}"
 
   ## Leafs
   - name: suspend
@@ -175,7 +154,7 @@ spec:
     outputs:
       artifacts:
       - name: vasp-files
-        path: "/data/vasp/training_data/{{workflow.parameters.supercell}}/{{workflow.parameters.configuration}}/calctype.default"
+        path: "/data/vasp/training_data/{{workflow.parameters.configuration}}/calctype.default"
     container:
       image: alpine:latest
 
@@ -221,8 +200,6 @@ spec:
       artifacts:
       - name: vasp-files
         path: /data/vasp
-    retryStrategy:
-      limit: 3
     container:
       image: registry.kramergroup.science/workflows/vasp-collect
       env:
@@ -302,11 +279,11 @@ spec:
         value:  ssh -i /ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
       source: |
         cd /data/repo
-        cp /data/properties.calc.json training_data/{{workflow.parameters.supercell}}/{{workflow.parameters.configuration}}/calctype.default/properties.calc.json
-        cp /data/vasp/run.final/OSZICAR training_data/{{workflow.parameters.supercell}}/{{workflow.parameters.configuration}}/calctype.default/OSZICAR
-        cp /data/vasp/run.final/OUTCAR training_data/{{workflow.parameters.supercell}}/{{workflow.parameters.configuration}}/calctype.default/OUTCAR
-        cp /data/vasp/run.final/CONTCAR training_data/{{workflow.parameters.supercell}}/{{workflow.parameters.configuration}}/calctype.default/CONTCAR                
-        echo "{\"source\": \"{{workflow.name}}\"}" >  training_data/{{workflow.parameters.supercell}}/{{workflow.parameters.configuration}}/calctype.default/workflow.json
+        cp /data/properties.calc.json training_data/{{workflow.parameters.configuration}}/calctype.default/properties.calc.json
+        cp /data/vasp/run.final/OSZICAR training_data/{{workflow.parameters.configuration}}/calctype.default/OSZICAR
+        cp /data/vasp/run.final/OUTCAR training_data/{{workflow.parameters.configuration}}/calctype.default/OUTCAR
+        cp /data/vasp/run.final/CONTCAR training_data/{{workflow.parameters.configuration}}/calctype.default/CONTCAR                
+        echo "{\"source\": \"{{workflow.name}}\"}" >  training_data/{{workflow.parameters.configuration}}/calctype.default/workflow.json
         git config user.email "no-reply@kramergroup.science"
         git config user.name "Argo Workflow Bot"
         git add training_data

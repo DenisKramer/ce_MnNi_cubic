@@ -1,0 +1,121 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: casm-fit-ce-mnni-cubic-
+spec:
+
+  entrypoint: job
+
+  arguments:
+    parameters:
+    - name: git-repo
+      value: "git@github.com:DenisKramer/ce_MnNi_cubic.git"
+    - name: cluster
+      value: "iridis5"
+
+  volumes:
+  - name: ssh
+    secret:
+        secretName: "{{workflow.parameters.cluster}}-login"
+        defaultMode: 256
+
+  volumeClaimTemplates:
+  - metadata:
+      name: repo
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+
+  entrypoint: job
+
+  templates:
+
+  # Main workflow template
+  - name: job
+    steps:
+    - - name: clone
+        template: clone-repo
+        arguments:
+          parameters:
+          - name: repo
+            value: "{{workflow.parameters.git-repo}}"
+    - - name: fit
+        template: fit-eci
+        arguments:
+          parameters:
+          - name: fitdir
+            value: "{{item.dir}}"
+          - name: filter
+            value: "{{item.filter}}"
+        withItems:
+        - { dir: 'fit_1', filter: 'is_calculated' }
+        - { dir: 'fit_2', filter: 'and(is_calculated,le(comp(a),0.5))' }
+        - { dir: 'fit_3', filter: 'and(is_calculated,ge(comp(a),0.5))' }          
+    - - name: update
+        template: update-repo
+
+  # Leafs
+
+  - name: clone-repo
+    inputs:
+      parameters:
+      - name: repo
+    script:
+      image: alpine/git
+      command: [ "/bin/sh" ]
+      env:    
+      - name: GIT_SSH_COMMAND
+        value:  ssh -i /ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
+      volumeMounts:
+      - name: repo
+        mountPath: /repo
+      - name: ssh
+        mountPath: /ssh
+      source: |
+        git clone {{inputs.parameters.repo}} /repo
+  - name: update-repo
+    retryStrategy:
+      limit: 5
+    script:
+      image: alpine/git
+      command: [ "/bin/sh" ]
+      volumeMounts:
+      - name: ssh
+        mountPath: /ssh
+      - name: repo
+        mountPath: /repo
+      env:
+      - name: GIT_SSH_COMMAND
+        value:  ssh -i /ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
+      source: |
+        cd /repo
+        git config user.email "no-reply@kramergroup.science"
+        git config user.name "Argo Workflow Bot"
+        git add .
+        git commit -m "Added result from workflow {{workflow.name}}"
+        git push
+
+  - name: fit-eci
+    inputs:
+      parameters:
+      - name: fitdir
+    script:
+      image: kramergroup/casm:condo-latest
+      volumeMounts:
+      - name: repo
+        mountPath: /repo
+      source: |
+        mkdir -p /repo/{{inputs.parameters.fitdir}}
+        cd /repo/{{inputs.parameters.fitdir}}
+        casm settings --new-eci {{inputs.parameters.fitdir}}
+        casm select -c CALCULATED --set '{{filter}}' -o train
+        if [ ! -f fit_ga.json ]; then
+          casm learn --exGeneticAlgorithm > fit_ga.json
+        fi
+        casm learn -s fit_ga.json
+        casm learn -s fit_ga.json --select 0
+        casm query -c train -k 'comp(a) formation_energy clex()' -o summary.dat
+
+
