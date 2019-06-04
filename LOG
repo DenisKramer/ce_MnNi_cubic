@@ -346,3 +346,9 @@ casm query -k formation_energy is_calculated corr hull_dist(CALCULATED,atom_frac
 casm query -c train -k comp(a) formation_energy clex() -o summary.dat 
 # return: 0 runtime(s): 0.388793
 
+# 2019-06-04 15:32:28
+# root@fbe53d7468cf
+# v0.3.dev-269-gd07b42
+casm ref --set-auto 
+# return: 0 runtime(s): 0.276376
+
