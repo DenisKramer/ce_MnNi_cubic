@@ -46,3 +46,231 @@ casm enum -m ConfigEnumAllOccupations -a
 casm select --set-on 
 # return: 0 runtime(s): 0.245206
 
+# 2019-06-03 22:05:31
+# root@74498293ccca
+# v0.3.dev-269-gd07b42
+casm query -k configname selected  -v -o STDOUT 
+# return: 0 runtime(s): 0.0020636
+
+# 2019-06-03 22:05:31
+# root@74498293ccca
+# v0.3.dev-269-gd07b42
+casm query -c MASTER --write-pos 
+# return: 0 runtime(s): 0.395315
+
+# 2019-06-03 22:07:24
+# root@74498293ccca
+# v0.3.dev-269-gd07b42
+casm query -c ALL 
+# return: 1 runtime(s): 0.001447
+
+# 2019-06-03 22:08:52
+# root@74498293ccca
+# v0.3.dev-269-gd07b42
+casm select -o calc 
+# return: 0 runtime(s): 0.251916
+
+# 2019-06-04 10:06:52
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm update 
+# return: 0 runtime(s): 4.8113
+
+# 2019-06-04 10:12:48
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm select -c ALL -o train 
+# return: 0 runtime(s): 0.299913
+
+# 2019-06-04 10:13:42
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm query -k formation_energy is_calculated corr hull_dist(CALCULATED,atom_frac)  -c /data/fit_1/train -v -o STDOUT 
+# return: 2 runtime(s): 0.0080742
+
+# 2019-06-04 10:14:03
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm query -k formation_energy is_calculated corr hull_dist(CALCULATED,atom_frac)  -c /data/fit_1/train -v -o STDOUT 
+# return: 2 runtime(s): 0.0043051
+
+# 2019-06-04 10:14:42
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm settings --new-eci test 
+# return: 0 runtime(s): 0.0379243
+
+# 2019-06-04 10:15:47
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm bset -u 
+# return: 0 runtime(s): 6.22339
+
+# 2019-06-04 10:16:04
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm bset -u 
+# return: 6 runtime(s): 0.334317
+
+# 2019-06-04 10:16:12
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm bset -u --force 
+# return: 0 runtime(s): 5.24016
+
+# 2019-06-04 10:16:43
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm query -k formation_energy is_calculated corr hull_dist(CALCULATED,atom_frac)  -c /data/fit_1/train -v -o STDOUT 
+# return: 2 runtime(s): 0.0226884
+
+# 2019-06-04 10:17:26
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm ref --set-auto 
+# return: 0 runtime(s): 0.273695
+
+# 2019-06-04 10:17:41
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm query -k formation_energy is_calculated corr hull_dist(CALCULATED,atom_frac)  -c /data/fit_1/train -v -o STDOUT 
+# return: 0 runtime(s): 0.0171078
+
+# 2019-06-04 10:19:27
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm query -c ALL -k scel_size comp 
+# return: 0 runtime(s): 0.283379
+
+# 2019-06-04 10:19:56
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm settings --new-eci test 
+# return: 0 runtime(s): 0.0284472
+
+# 2019-06-04 10:20:12
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm query -k formation_energy is_calculated corr hull_dist(CALCULATED,atom_frac)  -c /data/fit_1/train -v -o STDOUT 
+# return: 0 runtime(s): 0.0138056
+
+# 2019-06-04 10:21:03
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm select -c CALCULATED 
+# return: 0 runtime(s): 0.370388
+
+# 2019-06-04 10:21:08
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm query -k formation_energy is_calculated corr hull_dist(CALCULATED,atom_frac)  -c /data/fit_1/train -v -o STDOUT 
+# return: 0 runtime(s): 0.0147208
+
+# 2019-06-04 10:22:06
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm select -c CALCULATED -o train 
+# return: 6 runtime(s): 0.0013926
+
+# 2019-06-04 10:22:11
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm select -c CALCULATED -o train --force 
+# return: 0 runtime(s): 0.308333
+
+# 2019-06-04 10:22:22
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm query -k formation_energy is_calculated corr hull_dist(CALCULATED,atom_frac)  -c /data/fit_1/train -v -o STDOUT 
+# return: 0 runtime(s): 0.0147357
+
+# 2019-06-04 10:25:52
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm query -c train -k comp(a) formation_energy clex() 
+# return: 0 runtime(s): 0.306337
+
+# 2019-06-04 10:28:46
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm query -c train -k comp(a) formation_energy clex() -o summary.dat 
+# return: 0 runtime(s): 0.321594
+
+# 2019-06-04 10:44:21
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm select -c CALCULATED -k le(comp(a),0.5) -o train 
+# return: 1 runtime(s): 0.0625899
+
+# 2019-06-04 10:44:32
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm select -c CALCULATED -set-on le(comp(a),0.5) -o train 
+# return: 1 runtime(s): 0.0200736
+
+# 2019-06-04 10:44:53
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm select -c CALCULATED -set le(comp(a),0.5) -o train 
+# return: 1 runtime(s): 0.0332008
+
+# 2019-06-04 10:45:31
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm select -c CALCULATED --set le(comp(a),0.5) -o train 
+# return: 0 runtime(s): 0.302994
+
+# 2019-06-04 10:45:50
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm query -k formation_energy is_calculated corr hull_dist(CALCULATED,atom_frac)  -c /data/fit_2/train -v -o STDOUT 
+# return: 0 runtime(s): 0.0149635
+
+# 2019-06-04 10:46:09
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm select -c CALCULATED --set and(is_calculated,le(comp(a),0.5)) -o train 
+# return: 6 runtime(s): 0.0025095
+
+# 2019-06-04 10:46:15
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm select -c CALCULATED --set and(is_calculated,le(comp(a),0.5)) -o train --force 
+# return: 0 runtime(s): 0.315734
+
+# 2019-06-04 10:46:20
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm query -k formation_energy is_calculated corr hull_dist(CALCULATED,atom_frac)  -c /data/fit_2/train -v -o STDOUT 
+# return: 0 runtime(s): 0.0131783
+
+# 2019-06-04 11:03:30
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm select -c CALCULATED --set and(is_calculated,le(comp(a),0.5)) -o train 
+# return: 0 runtime(s): 0.316416
+
+# 2019-06-04 11:14:39
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm settings --new-eci fit_2 
+# return: 0 runtime(s): 0.0401798
+
+# 2019-06-04 11:15:06
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm settings --new-eci fit_2 
+# return: 0 runtime(s): 0.0289159
+
+# 2019-06-04 11:15:49
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm settings --new-eci fit_3 
+# return: 0 runtime(s): 0.034766
+
+# 2019-06-04 11:16:12
+# root@f4b94a85036b
+# v0.3.dev-269-gd07b42
+casm query -k formation_energy is_calculated corr hull_dist(CALCULATED,atom_frac)  -c /data/fit_3/train -v -o STDOUT 
+# return: 0 runtime(s): 0.0135225
+
