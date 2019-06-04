@@ -70,11 +70,11 @@ spec:
         value:  ssh -i /ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
       volumeMounts:
       - name: repo
-        mountPath: /repo
+        mountPath: /data
       - name: ssh
         mountPath: /ssh
       source: |
-        git clone {{inputs.parameters.repo}} /repo
+        git clone {{inputs.parameters.repo}} /data/repo
   - name: update-repo
     retryStrategy:
       limit: 5
@@ -85,12 +85,12 @@ spec:
       - name: ssh
         mountPath: /ssh
       - name: repo
-        mountPath: /repo
+        mountPath: /data
       env:
       - name: GIT_SSH_COMMAND
         value:  ssh -i /ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
       source: |
-        cd /repo
+        cd /data/repo
         git config user.email "no-reply@kramergroup.science"
         git config user.name "Argo Workflow Bot"
         git add .
@@ -101,16 +101,20 @@ spec:
     inputs:
       parameters:
       - name: fitdir
+      - name: filter
     script:
       image: kramergroup/casm:condo-latest
+      command: ["/bin/bash"]
       volumeMounts:
       - name: repo
-        mountPath: /repo
+        mountPath: /data
       source: |
-        mkdir -p /repo/{{inputs.parameters.fitdir}}
-        cd /repo/{{inputs.parameters.fitdir}}
+        mkdir -p /data/repo/{{inputs.parameters.fitdir}}
+        cd /data/repo/{{inputs.parameters.fitdir}}
+        echo "Creating new ECI setting {{inputs.parameters.fitdir}}"
         casm settings --new-eci {{inputs.parameters.fitdir}}
-        casm select -c CALCULATED --set '{{filter}}' -o train
+        echo "Selecting training set with filter {{inputs.parameters.filter}}"
+        casm select -c CALCULATED --set '{{inputs.parameters.filter}}' -o train
         if [ ! -f fit_ga.json ]; then
           casm learn --exGeneticAlgorithm > fit_ga.json
         fi
