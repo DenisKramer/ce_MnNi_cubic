@@ -19,15 +19,6 @@ spec:
         secretName: "{{workflow.parameters.cluster}}-login"
         defaultMode: 256
 
-  volumeClaimTemplates:
-  - metadata:
-      name: repo
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 1Gi
-
   entrypoint: job
 
   templates:
@@ -35,12 +26,6 @@ spec:
   # Main workflow template
   - name: job
     steps:
-    - - name: clone
-        template: clone-repo
-        arguments:
-          parameters:
-          - name: repo
-            value: "{{workflow.parameters.git-repo}}"
     - - name: fit
         template: fit-eci
         arguments:
@@ -53,6 +38,7 @@ spec:
         - { dir: 'fit_1', filter: 'is_calculated' }
         - { dir: 'fit_2', filter: 'and(is_calculated,le(comp(a),0.5))' }
         - { dir: 'fit_3', filter: 'and(is_calculated,ge(comp(a),0.5))' }          
+    
     - - name: update
         template: update-repo
 
@@ -75,25 +61,38 @@ spec:
         mountPath: /ssh
       source: |
         git clone {{inputs.parameters.repo}} /data/repo
+
   - name: update-repo
     retryStrategy:
       limit: 5
+    inputs:
+      parameters:
+      - name: fitdir
+      artifacts:
+      - name: fit-folder
+        path: /data/fit-folder
+      - name: repo
+        path: /data/repo
+        git:
+          repo: "{{workflow.parameters.git-repo}}"
+          sshPrivateKeySecret:
+            name: "{{workflow.parameters.cluster}}-login"
+            key: id_rsa
     script:
       image: alpine/git
       command: [ "/bin/sh" ]
       volumeMounts:
       - name: ssh
         mountPath: /ssh
-      - name: repo
-        mountPath: /data
       env:
       - name: GIT_SSH_COMMAND
         value:  ssh -i /ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
       source: |
         cd /data/repo
+        cp -r /data/fit-folder {{inputs.parameters.fitdir}}
         git config user.email "no-reply@kramergroup.science"
         git config user.name "Argo Workflow Bot"
-        git add .
+        git add {{inputs.parameters.fitdir}}
         git commit -m "Added result from workflow {{workflow.name}}"
         git push
 
@@ -101,7 +100,43 @@ spec:
     inputs:
       parameters:
       - name: fitdir
+      - name: filter       
+    steps:
+    - - name: fit
+        template: train-eci
+        arguments:
+          parameters:
+          - name: fitdir
+            value: "{{inputs.parameters.fitdir}}"
+          - name: filter
+            value: "{{inputs.parameters.filter}}"
+    - - name: update
+        template: update-repo
+        arguments:
+          parameters:
+          - name: fitdir
+            value: "{{inputs.parameters.fitdir}}"    
+          artifacts:
+          - name: fit-folder
+            from: "{{steps.fit.outputs.artifacts.fit-folder}}" 
+
+  - name: train-eci
+    inputs:
+      parameters:
+      - name: fitdir
       - name: filter
+      artifacts:
+      - name: repo
+        path: /data/repo
+        git:
+          repo: "{{workflow.parameters.git-repo}}"
+          sshPrivateKeySecret:
+            name: "{{workflow.parameters.cluster}}-login"
+            key: id_rsa
+    outputs:
+      artifacts:
+      - name: fit-folder
+        path: "/data/repo/{{inputs.parameters.fitdir}}"
     script:
       image: kramergroup/casm:condo-latest
       command: ["/bin/bash"]
@@ -121,7 +156,8 @@ spec:
         if [ ! -f fit_ga.json ]; then
           casm learn --exGeneticAlgorithm > fit_ga.json
         fi
-        casm learn -s fit_ga.json
+        echo "Fitting ECIs ..."
+        casm learn -s fit_ga.json > fit.out 
         casm learn -s fit_ga.json --select 0
         casm query -c train -k 'comp(a) formation_energy clex()' -o summary.dat
 
