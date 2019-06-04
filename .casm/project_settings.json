@@ -3,7 +3,7 @@
     "formation_energy" : {
       "bset" : "default",
       "calctype" : "default",
-      "eci" : "fit_3",
+      "eci" : "fit_2",
       "name" : "formation_energy",
       "property" : "formation_energy",
       "ref" : "default"
