@@ -556,3 +556,15 @@ casm query -c train -k comp(a) formation_energy clex() -o summary.dat
 casm query -c train -k comp(a) formation_energy clex() -o summary.dat 
 # return: 0 runtime(s): 0.568822
 
+# 2019-06-04 16:39:26
+# root@917ca4e481da
+# v0.3.dev-269-gd07b42
+casm bset -u --force 
+# return: 0 runtime(s): 5.86429
+
+# 2019-06-04 16:39:49
+# root@917ca4e481da
+# v0.3.dev-269-gd07b42
+casm bset -u --force 
+# return: 0 runtime(s): 9.96134
+

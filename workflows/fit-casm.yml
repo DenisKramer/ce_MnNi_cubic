@@ -111,6 +111,7 @@ spec:
       source: |
         mkdir -p /data/repo/{{inputs.parameters.fitdir}}
         cd /data/repo/{{inputs.parameters.fitdir}}
+        rm -rf *
         echo "Selecting training set with filter {{inputs.parameters.filter}}"
         casm select -c CALCULATED --set '{{inputs.parameters.filter}}' -o train --force
         echo "Creating new ECI setting {{inputs.parameters.fitdir}}"
