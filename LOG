@@ -568,3 +568,27 @@ casm bset -u --force
 casm bset -u --force 
 # return: 0 runtime(s): 9.96134
 
+# 2019-06-04 16:55:30
+# root@6c289a792a09
+# v0.3.dev-269-gd07b42
+casm select -c CALCULATED --set {{inputs.parameters.filter}} -o train --force 
+# return: 1 runtime(s): 0.282402
+
+# 2019-06-04 16:55:43
+# root@6c289a792a09
+# v0.3.dev-269-gd07b42
+casm select -c CALCULATED --set is_calculated -o train --force 
+# return: 0 runtime(s): 0.314757
+
+# 2019-06-04 16:55:54
+# root@6c289a792a09
+# v0.3.dev-269-gd07b42
+casm settings --new-eci fit_3 
+# return: 0 runtime(s): 0.0288425
+
+# 2019-06-04 16:56:07
+# root@6c289a792a09
+# v0.3.dev-269-gd07b42
+casm query -k formation_energy is_calculated corr hull_dist(CALCULATED,atom_frac)  -c /data/fit_3/train -v -o STDOUT 
+# return: 0 runtime(s): 0.0221382
+
